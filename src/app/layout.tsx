@@ -1,0 +1,111 @@
+import type { Metadata } from "next";
+import { Cormorant_Garamond, Montserrat } from "next/font/google";
+import "./globals.css";
+import { Navigation } from "@/components/Navigation";
+import { Footer } from "@/components/Footer";
+
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-heading",
+  display: "swap",
+});
+
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600"],
+  variable: "--font-body",
+  display: "swap",
+});
+
+export const metadata: Metadata = {
+  metadataBase: new URL("https://deonahawaii.com"),
+  title: {
+    default: "Deona Hawaii | Fine Art & Author",
+    template: "%s | Deona Hawaii",
+  },
+  description:
+    "Original fine art inspired by the beauty of Hawaii. Paintings, prints, and books by Deona Garcia.",
+  keywords: [
+    "Deona Hawaii",
+    "Deona Garcia",
+    "Hawaii art",
+    "fine art",
+    "original paintings",
+    "Hawaii artist",
+    "art prints",
+    "author",
+  ],
+  authors: [{ name: "Deona Garcia", url: "https://deonahawaii.com" }],
+  creator: "Deona Garcia",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://deonahawaii.com",
+    siteName: "Deona Hawaii",
+    title: "Deona Hawaii | Fine Art & Author",
+    description:
+      "Original fine art inspired by the beauty of Hawaii. Paintings, prints, and books by Deona Garcia.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    creator: "@deonahawaii",
+    title: "Deona Hawaii | Fine Art & Author",
+    description: "Original fine art inspired by the beauty of Hawaii.",
+  },
+  robots: { index: true, follow: true },
+  icons: {
+    icon: "/favicon-32.png",
+    apple: "/apple-touch-icon.png",
+  },
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html
+      lang="en"
+      className={`${cormorant.variable} ${montserrat.variable} h-full antialiased`}
+    >
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              name: "Deona Garcia",
+              alternateName: "Deona Hawaii",
+              url: "https://deonahawaii.com",
+              jobTitle: "Artist & Author",
+              description:
+                "Fine artist and author based in Hawaii, creating original paintings and books inspired by island life.",
+              sameAs: [
+                "https://instagram.com/deonahawaii",
+                "https://facebook.com/deonahawaii",
+                "https://youtube.com/@deonahawaii",
+                "https://amazon.com/author/deonagarcia",
+                "https://goodreads.com/deonagarcia",
+              ],
+              image: "https://deonahawaii.com/logo.png",
+              knowsAbout: [
+                "Fine Art",
+                "Painting",
+                "Hawaii Art",
+                "Book Writing",
+              ],
+            }),
+          }}
+        />
+      </head>
+      <body className="min-h-full flex flex-col">
+        <Navigation />
+        <main className="flex-1">{children}</main>
+        <Footer />
+      </body>
+    </html>
+  );
+}

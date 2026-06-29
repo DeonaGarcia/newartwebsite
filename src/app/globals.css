@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+@theme inline {
+  /* Soothing Ocean — sophisticated, high-end art gallery */
+  --color-ocean-deep: #1B3A4B;
+  --color-ocean: #3D6B7E;
+  --color-ocean-light: #6A9FB0;
+  --color-ocean-mist: #A8CCD7;
+  --color-ocean-foam: #D7EAF0;
+  --color-sand: #F5F0EB;
+  --color-sand-light: #FAF8F5;
+  --color-pearl: #FFFFFF;
+  --color-driftwood: #5C5147;
+  --color-driftwood-light: #8A7F73;
+  --color-coral: #C17D60;
+  --color-turquoise: #7FDBDA;
+  --color-turquoise-deep: #5CC5C3;
+  --color-slate: #374151;
+  --color-border: #E0DDD8;
+
+  /* Typography */
+  --font-heading: "Cormorant Garamond", Georgia, serif;
+  --font-body: "Montserrat", system-ui, sans-serif;
+}
+
+body {
+  background: var(--color-sand-light);
+  color: var(--color-slate);
+  font-family: var(--font-body);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+::selection {
+  background-color: var(--color-ocean-mist);
+  color: var(--color-ocean-deep);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-ocean);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
