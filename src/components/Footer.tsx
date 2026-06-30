@@ -7,11 +7,6 @@ const socialLinks = [
   { label: "YouTube", href: "https://youtube.com/@deonahawaii" },
 ];
 
-const authorLinks = [
-  { label: "Amazon Author", href: "https://amazon.com/author/deonagarcia" },
-  { label: "Goodreads", href: "https://goodreads.com/deonagarcia" },
-];
-
 export function Footer() {
   return (
     <footer className="bg-ocean-deep text-ocean-foam">
@@ -32,7 +27,7 @@ export function Footer() {
             </div>
             <p className="text-sm text-ocean-mist leading-relaxed">
               Original fine art inspired by the beauty of Hawaii.
-              Paintings, prints, and books.
+              Paintings and prints.
             </p>
           </div>
 
@@ -64,7 +59,7 @@ export function Footer() {
               Connect
             </p>
             <ul className="space-y-2">
-              {[...socialLinks, ...authorLinks].map((link) => (
+              {socialLinks.map((link) => (
                 <li key={link.href}>
                   <a
                     href={link.href}
@@ -90,3 +85,4 @@ export function Footer() {
     </footer>
   );
 }
+
