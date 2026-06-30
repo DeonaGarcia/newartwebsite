@@ -21,13 +21,13 @@ export function Footer() {
             <div className="flex items-center gap-3 mb-4">
               <Image
                 src="/logo.png"
-                alt="Deona Hawaii"
+                alt="Deona Hawaii Art"
                 width={40}
                 height={40}
                 className="h-10 w-auto brightness-110"
               />
               <p className="font-heading text-2xl font-semibold text-pearl">
-                Deona Hawaii
+                Deona Hawaii Art
               </p>
             </div>
             <p className="text-sm text-ocean-mist leading-relaxed">
@@ -42,7 +42,8 @@ export function Footer() {
             </p>
             <ul className="space-y-2">
               {[
-                { href: "/gallery", label: "Gallery" },
+                { href: "/originals", label: "Originals" },
+                { href: "/prints", label: "Prints" },
                 { href: "/about", label: "About" },
                 { href: "/contact", label: "Contact" },
               ].map((link) => (
@@ -81,7 +82,7 @@ export function Footer() {
 
         <div className="mt-12 pt-8 border-t border-ocean/30 text-center">
           <p className="text-xs text-ocean-mist">
-            &copy; {new Date().getFullYear()} Deona Hawaii. All rights reserved.
+            &copy; {new Date().getFullYear()} Deona Hawaii Art. All rights reserved.
             All artwork is protected by copyright.
           </p>
         </div>

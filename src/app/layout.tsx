@@ -19,15 +19,15 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://deonahawaii.com"),
+  metadataBase: new URL("https://deonahawaiiart.com"),
   title: {
-    default: "Deona Hawaii | Fine Art & Author",
-    template: "%s | Deona Hawaii",
+    default: "Deona Hawaii Art | Fine Art & Author",
+    template: "%s | Deona Hawaii Art",
   },
   description:
     "Original fine art inspired by the beauty of Hawaii. Paintings, prints, and books by Deona Garcia.",
   keywords: [
-    "Deona Hawaii",
+    "Deona Hawaii Art",
     "Deona Garcia",
     "Hawaii art",
     "fine art",
@@ -36,21 +36,21 @@ export const metadata: Metadata = {
     "art prints",
     "author",
   ],
-  authors: [{ name: "Deona Garcia", url: "https://deonahawaii.com" }],
+  authors: [{ name: "Deona Garcia", url: "https://deonahawaiiart.com" }],
   creator: "Deona Garcia",
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://deonahawaii.com",
-    siteName: "Deona Hawaii",
-    title: "Deona Hawaii | Fine Art & Author",
+    url: "https://deonahawaiiart.com",
+    siteName: "Deona Hawaii Art",
+    title: "Deona Hawaii Art | Fine Art & Author",
     description:
       "Original fine art inspired by the beauty of Hawaii. Paintings, prints, and books by Deona Garcia.",
   },
   twitter: {
     card: "summary_large_image",
     creator: "@deonahawaii",
-    title: "Deona Hawaii | Fine Art & Author",
+    title: "Deona Hawaii Art | Fine Art & Author",
     description: "Original fine art inspired by the beauty of Hawaii.",
   },
   robots: { index: true, follow: true },
@@ -79,7 +79,7 @@ export default function RootLayout({
               "@type": "Person",
               name: "Deona Garcia",
               alternateName: "Deona Hawaii",
-              url: "https://deonahawaii.com",
+              url: "https://deonahawaiiart.com",
               jobTitle: "Artist & Author",
               description:
                 "Fine artist and author based in Hawaii, creating original paintings and books inspired by island life.",
@@ -90,7 +90,7 @@ export default function RootLayout({
                 "https://amazon.com/author/deonagarcia",
                 "https://goodreads.com/deonagarcia",
               ],
-              image: "https://deonahawaii.com/logo.png",
+              image: "https://deonahawaiiart.com/logo.png",
               knowsAbout: [
                 "Fine Art",
                 "Painting",

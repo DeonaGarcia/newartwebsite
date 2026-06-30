@@ -7,7 +7,8 @@ import { useState } from "react";
 
 const navLinks = [
   { href: "/", label: "Home" },
-  { href: "/gallery", label: "Gallery" },
+  { href: "/originals", label: "Originals" },
+  { href: "/prints", label: "Prints" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ];
@@ -17,7 +18,7 @@ export function Navigation() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 bg-sand-light/90 backdrop-blur-sm border-b border-border">
+    <header className="sticky top-0 z-50 bg-sand/95 backdrop-blur-sm border-b border-ocean-mist/30">
       <nav className="mx-auto max-w-7xl px-6 lg:px-8" aria-label="Main navigation">
         <div className="flex h-20 items-center justify-between">
           <Link
@@ -26,14 +27,14 @@ export function Navigation() {
           >
             <Image
               src="/logo.png"
-              alt="Deona Hawaii"
+              alt="Deona Hawaii Art"
               width={48}
               height={48}
               className="h-12 w-auto"
               priority
             />
             <span className="font-heading text-2xl font-semibold tracking-wide text-ocean-deep">
-              Deona Hawaii
+              Deona Hawaii Art
             </span>
           </Link>
 
@@ -44,8 +45,8 @@ export function Navigation() {
                   href={link.href}
                   className={`font-body text-xs font-semibold uppercase tracking-[0.2em] transition-colors duration-200 cursor-pointer ${
                     pathname === link.href
-                      ? "text-ocean-deep border-b-2 border-ocean pb-1"
-                      : "text-driftwood-light hover:text-ocean-deep"
+                      ? "text-ocean-deep border-b-2 border-turquoise-deep pb-1"
+                      : "text-ocean hover:text-ocean-deep"
                   }`}
                 >
                   {link.label}
@@ -78,7 +79,7 @@ export function Navigation() {
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
                   className={`block font-body text-sm font-medium uppercase tracking-widest py-2 cursor-pointer ${
-                    pathname === link.href ? "text-ocean-deep" : "text-driftwood-light hover:text-ocean-deep"
+                    pathname === link.href ? "text-ocean-deep" : "text-ocean hover:text-ocean-deep"
                   }`}
                 >
                   {link.label}
