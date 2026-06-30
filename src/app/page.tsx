@@ -81,11 +81,11 @@ export default async function Home() {
                   <div className="mt-3">
                     <h3 className="text-ocean-deep font-light text-lg">{art.title}</h3>
                     <p className="text-ocean/60 text-sm">{art.medium}</p>
-                    {art.price && !art.sold ? (
+                    {art.price && art.status !== "sold" ? (
                       <p className="text-turquoise text-sm mt-1">
                         ${art.price.toLocaleString()}
                       </p>
-                    ) : art.sold ? (
+                    ) : art.status === "sold" ? (
                       <p className="text-coral text-sm mt-1 uppercase tracking-wider">Sold</p>
                     ) : null}
                   </div>
@@ -130,3 +130,4 @@ export default async function Home() {
     </>
   );
 }
+
