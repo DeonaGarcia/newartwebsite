@@ -43,7 +43,7 @@ export default async function OriginalsPage() {
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
-                {art.sold && (
+                {art.status === "sold" && (
                   <div className="absolute top-3 right-3 bg-coral text-pearl text-xs px-3 py-1 uppercase tracking-wider">
                     Sold
                   </div>
@@ -53,8 +53,8 @@ export default async function OriginalsPage() {
                 <h3 className="text-ocean-deep font-light text-lg">{art.title}</h3>
                 <div className="flex flex-wrap gap-2 text-sm text-ocean-deep/60 mt-1">
                   {art.medium && <span>{art.medium}</span>}
-                  {art.medium && art.dimensions && <span>\u00b7</span>}
-                  {art.dimensions && <span>{art.dimensions}</span>}
+                  {art.medium && art.size && <span>{"·"}</span>}
+                  {art.size && <span>{art.size}</span>}
                 </div>
                 {art.price ? (
                   <p className="text-turquoise text-sm mt-1">
@@ -80,3 +80,4 @@ export default async function OriginalsPage() {
     </section>
   );
 }
+
