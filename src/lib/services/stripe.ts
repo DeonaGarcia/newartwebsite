@@ -1,13 +1,23 @@
 import Stripe from "stripe";
 
-if (!process.env.STRIPE_SECRET_KEY) {
-  throw new Error("STRIPE_SECRET_KEY is not set");
-}
+/**
+ * Lazy-initialized Stripe client.
+ * Avoids crashing at build time when env vars aren't available.
+ */
+let _stripe: Stripe | null = null;
 
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: "2025-04-30.basil" as any,
-  typescript: true,
-});
+export function getStripe(): Stripe {
+  if (!_stripe) {
+    if (!process.env.STRIPE_SECRET_KEY) {
+      throw new Error("STRIPE_SECRET_KEY is not set");
+    }
+    _stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+      apiVersion: "2025-04-30.basil" as any,
+      typescript: true,
+    });
+  }
+  return _stripe;
+}
 
 /**
  * Create a Stripe Checkout Session for one-time art purchases.
@@ -27,6 +37,8 @@ export async function createCheckoutSession(params: {
   cancelUrl: string;
   metadata?: Record<string, string>;
 }) {
+  const stripe = getStripe();
+
   const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] =
     params.items.map((item) => ({
       price_data: {
