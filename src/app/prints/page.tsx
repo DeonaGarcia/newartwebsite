@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { getPublicArtworks } from "@/lib/blob-store";
 import Image from "next/image";
-
-export const dynamic = "force-dynamic";
+import Link from "next/link";
+import { getPrints } from "@/lib/artworks";
 
 export const metadata: Metadata = {
   title: "Art Prints",
@@ -11,8 +9,8 @@ export const metadata: Metadata = {
     "Shop fine art prints by Deona Hawaii Art. High-quality reproductions of original paintings.",
 };
 
-export default async function PrintsPage() {
-  const prints = await getPublicArtworks("print");
+export default function PrintsPage() {
+  const prints = getPrints();
 
   return (
     <section className="py-20 px-6 bg-sand-light">
@@ -25,47 +23,43 @@ export default async function PrintsPage() {
             Art Prints
           </h1>
           <p className="font-body text-ocean mt-4 max-w-lg mx-auto">
-            High-quality prints of original paintings, available in multiple sizes.
+            High-quality prints of original paintings, available in multiple
+            sizes.
           </p>
         </div>
 
         {prints.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="columns-1 md:columns-2 lg:columns-3 gap-8 space-y-8">
             {prints.map((art) => (
-              <div key={art.id} className="group">
-                <div
-                  className="relative overflow-hidden bg-sand/30"
-                  style={{ aspectRatio: `${art.width}/${art.height}` }}
-                >
+              <div key={art.id} className="break-inside-avoid group">
+                <div className="relative overflow-hidden bg-sand/30">
                   <Image
-                    src={art.imageUrl}
+                    src={`/art/${art.file}`}
                     alt={art.title}
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    width={art.width}
+                    height={art.height}
+                    className="w-full h-auto transition-transform duration-700 group-hover:scale-105"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
                 </div>
-                <div className="mt-3">
-                  <h3 className="text-ocean-deep font-light text-lg">{art.title}</h3>
-                  {art.price ? (
-                    <p className="text-turquoise text-sm mt-1">
-                      From ${art.price.toLocaleString()}
-                    </p>
-                  ) : null}
+                <div className="mt-3 mb-2">
+                  <h3 className="text-ocean-deep font-light text-lg">
+                    {art.title}
+                  </h3>
                 </div>
               </div>
             ))}
           </div>
         ) : (
-          <div className="text-center py-16">
-            <p className="text-ocean-deep/50 text-lg mb-4">
+          <div className="text-center mt-12">
+            <p className="text-ocean-deep/50 text-lg mb-6">
               Prints coming soon.
             </p>
             <Link
               href="/originals"
-              className="inline-block border border-ocean-deep text-ocean-deep px-8 py-3 text-sm tracking-widest uppercase hover:bg-ocean-deep hover:text-pearl transition-all duration-300"
+              className="inline-block border border-turquoise text-turquoise px-8 py-3 text-sm tracking-widest uppercase hover:bg-turquoise hover:text-ocean-deep transition-all duration-300"
             >
-              Browse Originals
+              View Original Paintings
             </Link>
           </div>
         )}
