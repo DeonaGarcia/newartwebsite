@@ -1,12 +1,8 @@
-import type { Metadata } from "next";
+"use client";
+
 import Image from "next/image";
 import { getOriginals } from "@/lib/artworks";
-
-export const metadata: Metadata = {
-  title: "Original Paintings",
-  description:
-    "Browse original paintings by Deona Hawaii Art, inspired by the islands.",
-};
+import { AddToCartButton } from "@/components/cart/AddToCartButton";
 
 export default function OriginalsPage() {
   const originals = getOriginals();
@@ -40,8 +36,9 @@ export default function OriginalsPage() {
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
                 </div>
-                <div className="mt-3 mb-2">
+                <div className="mt-3 mb-2 flex items-center justify-between">
                   <h3 className="text-ocean-deep font-light text-lg">{art.title}</h3>
+                  <AddToCartButton productId={art.id} type="original" />
                 </div>
               </div>
             ))}
