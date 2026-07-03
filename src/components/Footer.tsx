@@ -2,8 +2,8 @@ import Link from "next/link";
 import Image from "next/image";
 
 const socialLinks = [
-  { label: "Instagram", href: "https://instagram.com/deonahawaii" },
-  { label: "Facebook", href: "https://facebook.com/deonahawaii" },
+  { label: "Instagram", href: "https://instagram.com/deonahawaiiart" },
+  { label: "Facebook", href: "https://facebook.com/deonahawaiiart" },
   { label: "YouTube", href: "https://youtube.com/@deonahawaii" },
 ];
 
@@ -85,4 +85,3 @@ export function Footer() {
     </footer>
   );
 }
-
