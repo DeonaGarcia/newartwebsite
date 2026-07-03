@@ -95,8 +95,8 @@ export default function RootLayout({
               description:
                 "Fine artist and author based in Hawaii, creating original paintings and books inspired by island life.",
               sameAs: [
-                "https://instagram.com/deonahawaii",
-                "https://facebook.com/deonahawaii",
+                "https://instagram.com/deonahawaiiart",
+                "https://facebook.com/deonahawaiiart",
                 "https://youtube.com/@deonahawaii",
                 "https://amazon.com/author/deonagarcia",
                 "https://goodreads.com/deonagarcia",
