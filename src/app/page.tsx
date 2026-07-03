@@ -28,13 +28,22 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Hero */}
-      <section className="relative flex items-center justify-center min-h-[50vh] bg-ocean-deep px-6">
+      {/* Hero — Kealakekua Bay painting as backdrop */}
+      <section className="relative flex items-center justify-center min-h-[50vh] px-6 overflow-hidden">
+        <Image
+          src="/art/kealakekua-bay.jpg"
+          alt="Kealakekua Bay — original painting by Deona Garcia"
+          fill
+          className="object-cover"
+          priority
+          sizes="100vw"
+        />
+        <div className="absolute inset-0 bg-ocean-deep/50" />
         <div className="relative z-10 text-center max-w-3xl">
           <h1 className="text-5xl md:text-7xl font-light text-pearl tracking-wide mb-4">
             Deona Hawaii
           </h1>
-          <p className="text-xl md:text-2xl text-pearl/80 font-light mb-8">
+          <p className="text-xl md:text-2xl text-pearl/90 font-light mb-8">
             Original Art Inspired by the Islands
           </p>
           <Link
