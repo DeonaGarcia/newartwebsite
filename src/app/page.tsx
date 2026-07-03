@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { getFeaturedArtworks } from "@/lib/artworks";
+import { getOriginals } from "@/lib/artworks";
 
 export const metadata: Metadata = {
   title: "Deona Hawaii Art | Original Fine Art",
@@ -10,19 +10,19 @@ export const metadata: Metadata = {
 };
 
 export default function HomePage() {
-  const featured = getFeaturedArtworks();
+  const gallery = getOriginals();
 
   return (
     <>
-      {/* Banner — compact */}
+      {/* Banner — full image, no crop */}
       <section className="w-full bg-pearl">
-        <div className="relative w-full max-h-36 overflow-hidden">
+        <div className="relative w-full">
           <Image
             src="/banner.png"
             alt="Deona Hawaii Art - Original Art Inspired by the Islands"
             width={2000}
             height={300}
-            className="w-full h-auto object-cover"
+            className="w-full h-auto"
             priority
           />
         </div>
@@ -46,21 +46,21 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Featured Collection */}
+      {/* Gallery — all originals */}
       <section className="py-20 px-6 bg-sand-light">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <p className="font-body text-xs font-semibold uppercase tracking-[0.3em] text-turquoise-deep mb-3">
-              Gallery
+              Original Works
             </p>
             <h2 className="font-heading text-4xl md:text-5xl font-light text-ocean-deep">
-              Featured Collection
+              Gallery
             </h2>
           </div>
 
-          {featured.length > 0 ? (
+          {gallery.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {featured.map((artwork) => (
+              {gallery.map((artwork) => (
                 <Link
                   key={artwork.id}
                   href="/originals"
