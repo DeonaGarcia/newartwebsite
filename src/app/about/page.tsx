@@ -87,8 +87,8 @@ export default function AboutPage() {
               </p>
               <div className="flex flex-wrap gap-4">
                 {[
-                  { label: "Instagram", href: "https://instagram.com/deonahawaii" },
-                  { label: "Facebook", href: "https://facebook.com/deonahawaii" },
+                  { label: "Instagram", href: "https://instagram.com/deonahawaiiart" },
+                  { label: "Facebook", href: "https://facebook.com/deonahawaiiart" },
                   { label: "YouTube", href: "https://youtube.com/@deonahawaii" },
                 ].map((link) => (
                   <a
