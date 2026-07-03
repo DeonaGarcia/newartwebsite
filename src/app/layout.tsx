@@ -48,12 +48,21 @@ export const metadata: Metadata = {
     title: "Deona Hawaii Art | Fine Art & Author",
     description:
       "Original fine art inspired by the beauty of Hawaii. Paintings, prints, and books by Deona Garcia.",
+    images: [
+      {
+        url: "/art/kealakekua-bay.jpg",
+        width: 2000,
+        height: 1466,
+        alt: "Kealakekua Bay - original painting by Deona Hawaii",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     creator: "@deonahawaii",
     title: "Deona Hawaii Art | Fine Art & Author",
     description: "Original fine art inspired by the beauty of Hawaii.",
+    images: ["/art/kealakekua-bay.jpg"],
   },
   robots: { index: true, follow: true },
   icons: {
