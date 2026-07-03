@@ -2,9 +2,9 @@ import EasyPostApi from "@easypost/api";
 import { ORIGIN_ADDRESS } from "./types";
 import type { ShippingRate, GetRatesResponse, BuyLabelResponse } from "./types";
 
-let client: EasyPostApi | null = null;
+let client: InstanceType<typeof EasyPostApi> | null = null;
 
-function getClient(): EasyPostApi {
+function getClient(): InstanceType<typeof EasyPostApi> {
   if (!client) {
     const apiKey = process.env.EASYPOST_API_KEY;
     if (!apiKey) throw new Error("EASYPOST_API_KEY env var is not set");
