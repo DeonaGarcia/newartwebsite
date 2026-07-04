@@ -28,27 +28,27 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Hero — Kealakekua Bay painting as backdrop */}
-      <section className="relative flex items-center justify-center min-h-[50vh] px-6 overflow-hidden">
+      {/* Hero — full Kealakekua Bay painting, uncropped */}
+      <section className="relative flex items-center justify-center h-[60vh] px-6 overflow-hidden bg-ocean-deep">
         <Image
           src="/art/kealakekua-bay.jpg"
           alt="Kealakekua Bay — original painting by Deona Garcia"
           fill
-          className="object-cover"
+          className="object-contain"
           priority
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-ocean-deep/50" />
+        <div className="absolute inset-0 bg-ocean-deep/30" />
         <div className="relative z-10 text-center max-w-3xl">
-          <h1 className="text-5xl md:text-7xl font-light text-pearl tracking-wide mb-4">
+          <h1 className="text-5xl md:text-7xl font-light text-pearl tracking-wide mb-4 drop-shadow-lg">
             Deona Hawaii
           </h1>
-          <p className="text-xl md:text-2xl text-pearl/90 font-light mb-8">
+          <p className="text-xl md:text-2xl text-pearl/90 font-light mb-8 drop-shadow-lg">
             Original Art Inspired by the Islands
           </p>
           <Link
             href="/originals"
-            className="inline-block border border-turquoise text-turquoise px-8 py-3 text-sm tracking-widest uppercase hover:bg-turquoise hover:text-ocean-deep transition-all duration-300"
+            className="inline-block border border-turquoise text-turquoise px-8 py-3 text-sm tracking-widest uppercase hover:bg-turquoise hover:text-ocean-deep transition-all duration-300 bg-ocean-deep/40"
           >
             View Collection
           </Link>
