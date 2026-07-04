@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { ShippingManagerTab } from "@/components/admin/ShippingManagerTab";
 
 interface Artwork {
   id: string;
@@ -29,6 +30,7 @@ const textDim = "#a0a0a0";
 export default function AdminPage() {
   const [authed, setAuthed] = useState(false);
   const [password, setPassword] = useState("");
+  const [tab, setTab] = useState<"artworks" | "shipping">("artworks");
   const [artworks, setArtworks] = useState<Artwork[]>([]);
   const [editing, setEditing] = useState<Artwork | null>(null);
   const [loading, setLoading] = useState(false);
@@ -162,16 +164,15 @@ export default function AdminPage() {
     cursor: "pointer",
   };
 
-  const btnOutline: React.CSSProperties = {
+  const tabBtn = (active: boolean): React.CSSProperties => ({
     padding: "8px 20px",
     borderRadius: 6,
     border: `1px solid ${accent}`,
-    background: "transparent",
-    color: accent,
+    background: active ? accent : "transparent",
+    color: active ? bg : accent,
     cursor: "pointer",
-    fontWeight: 500,
-    textDecoration: "none",
-  };
+    fontWeight: 600,
+  });
 
   if (!authed) {
     return (
@@ -200,22 +201,33 @@ export default function AdminPage() {
     <div style={{ minHeight: "100vh", background: bg, color: text, padding: 24 }}>
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
         {/* Nav Bar */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
           <div>
-            <h1 style={{ color: accent, fontSize: 28 }}>Artwork Manager</h1>
+            <h1 style={{ color: accent, fontSize: 28 }}>Dashboard</h1>
             <p style={{ color: textDim, fontSize: 14, marginTop: 4 }}>{artworks.length} artworks</p>
           </div>
           <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-            <a href="/admin/shipping" style={btnOutline}>Shipping</a>
-            <button onClick={() => setShowAdd(!showAdd)} style={btnPrimary}>
-              {showAdd ? "Cancel" : "+ Add Artwork"}
-            </button>
-            {!migrated && (
-              <button onClick={runMigration} disabled={loading} style={{ ...btnOutline, borderColor: textDim, color: textDim, fontSize: 12 }}>
+            {tab === "artworks" && (
+              <button onClick={() => setShowAdd(!showAdd)} style={btnPrimary}>
+                {showAdd ? "Cancel" : "+ Add Artwork"}
+              </button>
+            )}
+            {!migrated && tab === "artworks" && (
+              <button onClick={runMigration} disabled={loading} style={{ padding: "8px 20px", borderRadius: 6, border: `1px solid ${textDim}`, background: "transparent", color: textDim, cursor: "pointer", fontSize: 12 }}>
                 Migrate
               </button>
             )}
           </div>
+        </div>
+
+        {/* Tabs - everything in one place, no page navigation */}
+        <div style={{ display: "flex", gap: 8, marginBottom: 24, borderBottom: `1px solid ${accent}22`, paddingBottom: 16 }}>
+          <button onClick={() => setTab("artworks")} style={tabBtn(tab === "artworks")}>
+            Artworks
+          </button>
+          <button onClick={() => setTab("shipping")} style={tabBtn(tab === "shipping")}>
+            Shipping
+          </button>
         </div>
 
         {/* Messages */}
@@ -225,84 +237,90 @@ export default function AdminPage() {
           </div>
         )}
 
-        {/* Add Form */}
-        {showAdd && (
-          <AddArtworkForm
-            inputStyle={inputStyle}
-            onAdd={addArtwork}
-            onUpload={uploadImage}
-            uploading={uploading}
-            loading={loading}
-            onCancel={() => setShowAdd(false)}
-          />
-        )}
+        {tab === "artworks" ? (
+          <>
+            {/* Add Form */}
+            {showAdd && (
+              <AddArtworkForm
+                inputStyle={inputStyle}
+                onAdd={addArtwork}
+                onUpload={uploadImage}
+                uploading={uploading}
+                loading={loading}
+                onCancel={() => setShowAdd(false)}
+              />
+            )}
 
-        {/* Artwork List */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-          {artworks.map((art) => (
-            <div key={art.id} style={{ background: card, borderRadius: 12, padding: 16 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-                {art.imageUrl && (
-                  <img src={art.imageUrl} alt={art.title} style={{ width: 60, height: 60, objectFit: "cover", borderRadius: 6 }} />
-                )}
-                <div style={{ flex: 1 }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
-                    <h3 style={{ color: text, fontSize: 16, margin: 0 }}>{art.title}</h3>
-                    <span style={{ color: textDim, fontSize: 12 }}>({art.type})</span>
-                    {art.featured && <span style={{ color: accent, fontSize: 11 }}>â Featured</span>}
+            {/* Artwork List */}
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+              {artworks.map((art) => (
+                <div key={art.id} style={{ background: card, borderRadius: 12, padding: 16 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+                    {art.imageUrl && (
+                      <img src={art.imageUrl} alt={art.title} style={{ width: 60, height: 60, objectFit: "cover", borderRadius: 6 }} />
+                    )}
+                    <div style={{ flex: 1 }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
+                        <h3 style={{ color: text, fontSize: 16, margin: 0 }}>{art.title}</h3>
+                        <span style={{ color: textDim, fontSize: 12 }}>({art.type})</span>
+                        {art.featured && <span style={{ color: accent, fontSize: 11 }}>★ Featured</span>}
+                      </div>
+                      <p style={{ color: textDim, fontSize: 12, margin: 0 }}>
+                        {art.size && `${art.size} | `}{art.medium && `${art.medium} | `}
+                        {art.price ? `$${(art.price / 100).toFixed(2)}` : "No price"}
+                      </p>
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                      <span style={{
+                        padding: "4px 10px",
+                        borderRadius: 4,
+                        fontSize: 11,
+                        fontWeight: 600,
+                        background: art.status === "available" ? "#2ecc7122" : art.status === "sold" ? "#e74c3c22" : "#f39c1222",
+                        color: art.status === "available" ? "#2ecc71" : art.status === "sold" ? "#e74c3c" : "#f39c12",
+                      }}>
+                        {art.status.toUpperCase()}
+                      </span>
+                      <button
+                        onClick={() => setEditing(editing?.id === art.id ? null : art)}
+                        style={{ padding: "6px 16px", borderRadius: 6, border: `1px solid ${accent}44`, background: "transparent", color: accent, cursor: "pointer", fontSize: 12 }}
+                      >
+                        {editing?.id === art.id ? "Close" : "Edit"}
+                      </button>
+                      <button
+                        onClick={() => deleteArtwork(art.id)}
+                        style={{ padding: "6px 16px", borderRadius: 6, border: "1px solid #e74c3c44", background: "transparent", color: "#e74c3c", cursor: "pointer", fontSize: 12 }}
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </div>
-                  <p style={{ color: textDim, fontSize: 12, margin: 0 }}>
-                    {art.size && `${art.size} | `}{art.medium && `${art.medium} | `}
-                    {art.price ? `$${(art.price / 100).toFixed(2)}` : "No price"}
-                  </p>
-                </div>
-                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                  <span style={{
-                    padding: "4px 10px",
-                    borderRadius: 4,
-                    fontSize: 11,
-                    fontWeight: 600,
-                    background: art.status === "available" ? "#2ecc7122" : art.status === "sold" ? "#e74c3c22" : "#f39c1222",
-                    color: art.status === "available" ? "#2ecc71" : art.status === "sold" ? "#e74c3c" : "#f39c12",
-                  }}>
-                    {art.status.toUpperCase()}
-                  </span>
-                  <button
-                    onClick={() => setEditing(editing?.id === art.id ? null : art)}
-                    style={{ padding: "6px 16px", borderRadius: 6, border: `1px solid ${accent}44`, background: "transparent", color: accent, cursor: "pointer", fontSize: 12 }}
-                  >
-                    {editing?.id === art.id ? "Close" : "Edit"}
-                  </button>
-                  <button
-                    onClick={() => deleteArtwork(art.id)}
-                    style={{ padding: "6px 16px", borderRadius: 6, border: "1px solid #e74c3c44", background: "transparent", color: "#e74c3c", cursor: "pointer", fontSize: 12 }}
-                  >
-                    Delete
-                  </button>
-                </div>
-              </div>
 
-              {/* Edit Form */}
-              {editing?.id === art.id && (
-                <EditArtworkForm
-                  artwork={art}
-                  inputStyle={inputStyle}
-                  onSave={saveArtwork}
-                  onUpload={uploadImage}
-                  uploading={uploading}
-                  loading={loading}
-                  onCancel={() => setEditing(null)}
-                />
-              )}
+                  {/* Edit Form */}
+                  {editing?.id === art.id && (
+                    <EditArtworkForm
+                      artwork={art}
+                      inputStyle={inputStyle}
+                      onSave={saveArtwork}
+                      onUpload={uploadImage}
+                      uploading={uploading}
+                      loading={loading}
+                      onCancel={() => setEditing(null)}
+                    />
+                  )}
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
 
-        {artworks.length === 0 && (
-          <div style={{ textAlign: "center", padding: 60, color: textDim }}>
-            <p style={{ fontSize: 18, marginBottom: 8 }}>No artworks yet</p>
-            <p style={{ fontSize: 14 }}>Click &quot;+ Add Artwork&quot; or run a migration to get started.</p>
-          </div>
+            {artworks.length === 0 && (
+              <div style={{ textAlign: "center", padding: 60, color: textDim }}>
+                <p style={{ fontSize: 18, marginBottom: 8 }}>No artworks yet</p>
+                <p style={{ fontSize: 14 }}>Click &quot;+ Add Artwork&quot; or run a migration to get started.</p>
+              </div>
+            )}
+          </>
+        ) : (
+          <ShippingManagerTab password={password} />
         )}
       </div>
     </div>
