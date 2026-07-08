@@ -19,6 +19,7 @@ export async function saveArtworks(artworks: Artwork[]): Promise<void> {
     await put(METADATA_KEY, JSON.stringify(artworks, null, 2), {
           access: "public",
           addRandomSuffix: false,
+          allowOverwrite: true,
           contentType: "application/json",
     });
 }
@@ -30,6 +31,7 @@ export async function uploadImage(
     const blob = await put(`artworks/${filename}`, file, {
           access: "public",
           addRandomSuffix: false,
+          allowOverwrite: true,
     });
     return { url: blob.url, width: 0, height: 0 };
 }
