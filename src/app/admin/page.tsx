@@ -17,6 +17,7 @@ interface Artwork {
   description?: string;
   status: "available" | "sold" | "reserved" | "unlisted";
   featured?: boolean;
+  freeShipping?: boolean;
   order: number;
   createdAt: string;
   updatedAt: string;
