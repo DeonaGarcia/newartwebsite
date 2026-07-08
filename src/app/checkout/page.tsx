@@ -21,7 +21,6 @@ export default function CheckoutPage() {
   const [selectedMethod, setSelectedMethod] = useState<string | null>(null);
   const [selectedQuote, setSelectedQuote] = useState<ShippingQuote | null>(null);
   const [taxAmount, setTaxAmount] = useState<number | null>(null);
-  const [isCalculating, setIsCalculating] = useState(false);
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -48,41 +47,27 @@ export default function CheckoutPage() {
     );
   }
 
+  // Shipping is a flat, free rate that Deona absorbs and fulfills manually —
+  // no live rate shopping (EasyPost) is called during customer checkout.
   const handleAddressSubmit = async (addr: ShippingAddress) => {
     setAddress(addr);
-    setIsCalculating(true);
     setError(null);
 
-    try {
-      const res = await fetch("/api/shipping/calculate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          items: items.map((i) => ({ productId: i.productId, quantity: i.quantity })),
-          destinationState: addr.state,
-          destinationZip: addr.postalCode,
-        }),
-      });
+    const freeQuote: ShippingQuote = {
+      method: "standard",
+      methodLabel: "Free Shipping",
+      cost: 0,
+      estimatedDaysMin: 5,
+      estimatedDaysMax: 10,
+      packages: [],
+      warnings: [],
+    };
 
-      const data = await res.json();
-
-      if (data.errors?.length > 0) {
-        setError(data.errors.join(". "));
-        setQuotes([]);
-      } else {
-        setQuotes(data.quotes || []);
-        setWarnings(data.warnings || []);
-        if (data.quotes?.length > 0) {
-          setSelectedMethod(data.quotes[0].method);
-          setSelectedQuote(data.quotes[0]);
-        }
-        setStep("shipping");
-      }
-    } catch {
-      setError("Failed to calculate shipping. Please try again.");
-    } finally {
-      setIsCalculating(false);
-    }
+    setQuotes([freeQuote]);
+    setWarnings([]);
+    setSelectedMethod(freeQuote.method);
+    setSelectedQuote(freeQuote);
+    setStep("shipping");
   };
 
   const handleMethodSelect = (method: string) => {
@@ -170,7 +155,7 @@ export default function CheckoutPage() {
               <div className="bg-pearl p-6">
                 <ShippingForm
                   onSubmit={handleAddressSubmit}
-                  isLoading={isCalculating}
+                  isLoading={false}
                 />
               </div>
             )}
