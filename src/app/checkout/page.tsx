@@ -21,6 +21,7 @@ export default function CheckoutPage() {
   const [selectedMethod, setSelectedMethod] = useState<string | null>(null);
   const [selectedQuote, setSelectedQuote] = useState<ShippingQuote | null>(null);
   const [taxAmount, setTaxAmount] = useState<number | null>(null);
+  const [isCalculating, setIsCalculating] = useState(false);
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -47,27 +48,47 @@ export default function CheckoutPage() {
     );
   }
 
-  // Shipping is a flat, free rate that Deona absorbs and fulfills manually —
-  // no live rate shopping (EasyPost) is called during customer checkout.
   const handleAddressSubmit = async (addr: ShippingAddress) => {
     setAddress(addr);
+    setIsCalculating(true);
     setError(null);
 
-    const freeQuote: ShippingQuote = {
-      method: "standard",
-      methodLabel: "Free Shipping",
-      cost: 0,
-      estimatedDaysMin: 5,
-      estimatedDaysMax: 10,
-      packages: [],
-      warnings: [],
-    };
+    try {
+      const res = await fetch("/api/shipping/eligibility", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          items: items.map((i) => ({ productId: i.productId, quantity: i.quantity })),
+          address: addr,
+        }),
+      });
 
-    setQuotes([freeQuote]);
-    setWarnings([]);
-    setSelectedMethod(freeQuote.method);
-    setSelectedQuote(freeQuote);
-    setStep("shipping");
+      const data = await res.json();
+
+      if (data.blocked) {
+        setError(data.reason || "Shipping isn't available for this address. Please contact us directly.");
+        setQuotes([]);
+      } else {
+        const quote: ShippingQuote = {
+          method: "standard",
+          methodLabel: data.shippingLabel,
+          cost: data.shippingCost,
+          estimatedDaysMin: 5,
+          estimatedDaysMax: 10,
+          packages: [],
+          warnings: [],
+        };
+        setQuotes([quote]);
+        setWarnings([]);
+        setSelectedMethod(quote.method);
+        setSelectedQuote(quote);
+        setStep("shipping");
+      }
+    } catch {
+      setError("Failed to determine shipping. Please try again.");
+    } finally {
+      setIsCalculating(false);
+    }
   };
 
   const handleMethodSelect = (method: string) => {
@@ -155,7 +176,7 @@ export default function CheckoutPage() {
               <div className="bg-pearl p-6">
                 <ShippingForm
                   onSubmit={handleAddressSubmit}
-                  isLoading={false}
+                  isLoading={isCalculating}
                 />
               </div>
             )}
