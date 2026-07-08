@@ -21,6 +21,7 @@ export interface Artwork {
     shipping_carrier_override?: string;
     shipping_service_override?: string;
     shipping_override_notes?: string;
+    freeShipping?: boolean;
 }
 
 export interface ArtworkInput {
@@ -39,4 +40,5 @@ export interface ArtworkInput {
     shipping_carrier_override?: string;
     shipping_service_override?: string;
     shipping_override_notes?: string;
+    freeShipping?: boolean;
 }
