@@ -36,7 +36,7 @@ export default async function PrintsPage() {
               <div key={art.id} className="break-inside-avoid group">
                 <div
                   className="relative overflow-hidden bg-sand/30"
-                  style={{ aspectRatio: \`\${art.width}/\${art.height}\` }}
+                  style={{ aspectRatio: art.width + "/" + art.height }}
                 >
                   <Image
                     src={art.imageUrl}
