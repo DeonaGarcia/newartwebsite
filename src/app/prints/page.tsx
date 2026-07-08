@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { getPublicArtworks } from "@/lib/blob-store";
 import { AddToCartButton } from "@/components/cart/AddToCartButton";
+import { FreeShippingTag } from "@/components/shipping/FreeShippingBadge";
 
 export const dynamic = "force-dynamic";
 
@@ -60,8 +61,9 @@ export default async function PrintsPage() {
                       {art.size && <span>{art.size}</span>}
                     </div>
                     {art.price ? (
-                      <p className="text-turquoise text-sm mt-1">
-                        {'$'}{(art.price / 100).toLocaleString()}
+                      <p className="text-turquoise text-sm mt-1 flex items-center gap-2">
+                        <span>{'$'}{(art.price / 100).toLocaleString()}</span>
+                        {art.freeShipping && <FreeShippingTag />}
                       </p>
                     ) : null}
                     {art.description && (
