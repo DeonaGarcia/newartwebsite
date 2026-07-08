@@ -1,11 +1,18 @@
-"use client";
-
+import type { Metadata } from "next";
 import Image from "next/image";
-import { getOriginals } from "@/lib/artworks";
+import { getPublicArtworks } from "@/lib/blob-store";
 import { AddToCartButton } from "@/components/cart/AddToCartButton";
 
-export default function OriginalsPage() {
-  const originals = getOriginals();
+export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "Original Paintings",
+  description:
+    "Browse original paintings by Deona Hawaii Art, inspired by the islands.",
+};
+
+export default async function OriginalsPage() {
+  const originals = await getPublicArtworks("original");
 
   return (
     <section className="py-20 px-6 bg-sand-light">
@@ -26,19 +33,43 @@ export default function OriginalsPage() {
           <div className="columns-1 md:columns-2 lg:columns-3 gap-8 space-y-8">
             {originals.map((art) => (
               <div key={art.id} className="break-inside-avoid group">
-                <div className="relative overflow-hidden bg-sand/30">
+                <div
+                  className="relative overflow-hidden bg-sand/30"
+                  style={{ aspectRatio: \`\${art.width}/\${art.height}\` }}
+                >
                   <Image
-                    src={`/art/${art.file}`}
+                    src={art.imageUrl}
                     alt={art.title}
-                    width={art.width}
-                    height={art.height}
-                    className="w-full h-auto transition-transform duration-700 group-hover:scale-105"
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
+                  {art.status === "sold" && (
+                    <div className="absolute top-3 right-3 bg-coral text-pearl text-xs px-3 py-1 uppercase tracking-wider">
+                      Sold
+                    </div>
+                  )}
                 </div>
-                <div className="mt-3 mb-2 flex items-center justify-between">
-                  <h3 className="text-ocean-deep font-light text-lg">{art.title}</h3>
-                  <AddToCartButton productId={art.id} type="original" />
+                <div className="mt-3 mb-2 flex items-start justify-between gap-3">
+                  <div>
+                    <h3 className="text-ocean-deep font-light text-lg">{art.title}</h3>
+                    <div className="flex flex-wrap gap-2 text-sm text-ocean-deep/60 mt-1">
+                      {art.medium && <span>{art.medium}</span>}
+                      {art.medium && art.size && <span>&middot;</span>}
+                      {art.size && <span>{art.size}</span>}
+                    </div>
+                    {art.price ? (
+                      <p className="text-turquoise text-sm mt-1">
+                        {'$'}{(art.price / 100).toLocaleString()}
+                      </p>
+                    ) : null}
+                    {art.description && (
+                      <p className="text-ocean-deep/50 text-sm mt-2 leading-relaxed">
+                        {art.description}
+                      </p>
+                    )}
+                  </div>
+                  <AddToCartButton productId={art.id} type="original" disabled={art.status !== "available"} />
                 </div>
               </div>
             ))}
