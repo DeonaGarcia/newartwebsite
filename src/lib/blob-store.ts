@@ -3,24 +3,30 @@ import type { Artwork } from "./types";
 
 const METADATA_KEY = "artworks/metadata.json";
 
-export async function getArtworks(): Promise<Artwork[]> {
+export async function getArtworksWithMeta(): Promise<{ artworks: Artwork[]; etag?: string }> {
     try {
           const { blobs } = await list({ prefix: METADATA_KEY });
-          if (blobs.length === 0) return [];
+          if (blobs.length === 0) return { artworks: [] };
           const res = await fetch(blobs[0].url, { cache: "no-store" });
           const data: Artwork[] = await res.json();
-          return data.sort((a, b) => a.order - b.order);
+          return { artworks: data.sort((a, b) => a.order - b.order), etag: blobs[0].etag };
     } catch {
-          return [];
+          return { artworks: [] };
     }
 }
 
-export async function saveArtworks(artworks: Artwork[]): Promise<void> {
+export async function getArtworks(): Promise<Artwork[]> {
+    const { artworks } = await getArtworksWithMeta();
+    return artworks;
+}
+
+export async function saveArtworks(artworks: Artwork[], ifMatch?: string): Promise<void> {
     await put(METADATA_KEY, JSON.stringify(artworks, null, 2), {
           access: "public",
           addRandomSuffix: false,
           allowOverwrite: true,
           contentType: "application/json",
+          ...(ifMatch ? { ifMatch } : {}),
     });
 }
 
