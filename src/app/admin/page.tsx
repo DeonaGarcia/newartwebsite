@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ShippingManagerTab } from "@/components/admin/ShippingManagerTab";
+import { OrdersTab } from "@/components/admin/OrdersTab";
 
 interface Artwork {
   id: string;
@@ -30,7 +31,7 @@ const textDim = "#a0a0a0";
 export default function AdminPage() {
   const [authed, setAuthed] = useState(false);
   const [password, setPassword] = useState("");
-  const [tab, setTab] = useState<"artworks" | "shipping">("artworks");
+  const [tab, setTab] = useState<"artworks" | "shipping" | "orders">("artworks");
   const [artworks, setArtworks] = useState<Artwork[]>([]);
   const [editing, setEditing] = useState<Artwork | null>(null);
   const [loading, setLoading] = useState(false);
@@ -228,6 +229,9 @@ export default function AdminPage() {
           <button onClick={() => setTab("shipping")} style={tabBtn(tab === "shipping")}>
             Shipping
           </button>
+          <button onClick={() => setTab("orders")} style={tabBtn(tab === "orders")}>
+            Orders
+          </button>
         </div>
 
         {/* Messages */}
@@ -319,8 +323,10 @@ export default function AdminPage() {
               </div>
             )}
           </>
-        ) : (
+        ) : tab === "shipping" ? (
           <ShippingManagerTab password={password} />
+        ) : (
+          <OrdersTab />
         )}
       </div>
     </div>
