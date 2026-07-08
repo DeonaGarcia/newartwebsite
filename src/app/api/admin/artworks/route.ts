@@ -6,6 +6,28 @@ import type { Artwork } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
 
+/**
+ * Parses the first two numbers out of a freeform size string like
+ * `24" x 36"`, `24 x 36 in`, or `24x36` — used to auto-detect which
+ * artworks qualify for free shipping by physical size.
+ */
+function parseSizeInches(size?: string): [number, number] | null {
+  if (!size) return null;
+  const nums = size.match(/\d+(\.\d+)?/g);
+  if (!nums || nums.length < 2) return null;
+  const [a, b] = nums.map(Number);
+  if (Number.isNaN(a) || Number.isNaN(b)) return null;
+  return [a, b];
+}
+
+/** True if the (unordered) pair of dimensions fits within maxA x maxB, in either orientation. */
+function fitsWithin(dims: [number, number], maxA: number, maxB: number): boolean {
+  const [small, large] = [...dims].sort((a, b) => a - b);
+  const [maxSmall, maxLarge] = [maxA, maxB].sort((a, b) => a - b);
+  return small <= maxSmall && large <= maxLarge;
+}
+
+
 export async function GET() {
     if (!(await isAuthenticated())) {
           return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -106,6 +128,23 @@ export async function POST(req: NextRequest) {
                 return { artworks, result: art };
               });
           return NextResponse.json(newArt);
+        }
+
+    if (body.action === "applyFreeShipping") {
+          const maxA = typeof body.maxWidthIn === "number" ? body.maxWidthIn : 24;
+          const maxB = typeof body.maxHeightIn === "number" ? body.maxHeightIn : 28;
+          let count = 0;
+          await withRetry<number>((artworks) => {
+                count = 0;
+                for (const art of artworks) {
+                      const dims = parseSizeInches(art.size);
+                      const eligible = dims ? fitsWithin(dims, maxA, maxB) : false;
+                      art.freeShipping = eligible;
+                      if (eligible) count++;
+                    }
+                return { artworks, result: count };
+              });
+          return NextResponse.json({ ok: true, count, maxWidthIn: maxA, maxHeightIn: maxB });
         }
 
     return NextResponse.json({ error: "Unknown action" }, { status: 400 });
