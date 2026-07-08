@@ -145,6 +145,24 @@ export default function AdminPage() {
     setTimeout(() => setMessage(""), 3000);
   }
 
+  async function applyFreeShipping() {
+    setLoading(true);
+    const res = await fetch("/api/admin/artworks", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "applyFreeShipping" }),
+    });
+    if (res.ok) {
+      const data = await res.json();
+      setMessage(`Free shipping applied to ${data.count} artwork(s) ≤ 24"×28"`);
+      loadArtworks();
+    } else {
+      setMessage("Failed to apply free shipping");
+    }
+    setLoading(false);
+    setTimeout(() => setMessage(""), 3000);
+  }
+
   const inputStyle: React.CSSProperties = {
     background: bg,
     color: text,
@@ -218,6 +236,11 @@ export default function AdminPage() {
                 Migrate
               </button>
             )}
+            {tab === "artworks" && (
+              <button onClick={applyFreeShipping} disabled={loading} style={{ padding: "8px 20px", borderRadius: 6, border: `1px solid ${accent}66`, background: "transparent", color: accent, cursor: "pointer", fontSize: 12 }}>
+                Free Ship ≤24×28
+              </button>
+            )}
           </div>
         </div>
 
@@ -268,6 +291,7 @@ export default function AdminPage() {
                         <h3 style={{ color: text, fontSize: 16, margin: 0 }}>{art.title}</h3>
                         <span style={{ color: textDim, fontSize: 12 }}>({art.type})</span>
                         {art.featured && <span style={{ color: accent, fontSize: 11 }}>★ Featured</span>}
+                        {art.freeShipping && <span style={{ color: "#5CC5C3", fontSize: 11 }}>🚚 Free Ship</span>}
                       </div>
                       <p style={{ color: textDim, fontSize: 12, margin: 0 }}>
                         {art.size && `${art.size} | `}{art.medium && `${art.medium} | `}
@@ -356,6 +380,7 @@ function AddArtworkForm({
   const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [status, setStatus] = useState<"available" | "sold" | "reserved" | "unlisted">("available");
+  const [freeShipping, setFreeShipping] = useState(false);
 
   async function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -411,9 +436,14 @@ function AddArtworkForm({
         {uploading && <span style={{ color: accent, fontSize: 12, marginLeft: 8 }}>Uploading...</span>}
         {imageUrl && <p style={{ color: "#2ecc71", fontSize: 11, marginTop: 4 }}>Uploaded: {imageUrl.slice(-30)}</p>}
       </div>
+      <div style={{ marginTop: 12 }}>
+        <label style={{ display: "flex", alignItems: "center", gap: 6, color: text, fontSize: 13, cursor: "pointer" }}>
+          <input type="checkbox" checked={freeShipping} onChange={(e) => setFreeShipping(e.target.checked)} /> Free Shipping
+        </label>
+      </div>
       <div style={{ display: "flex", gap: 8, marginTop: 16 }}>
         <button
-          onClick={() => onAdd({ title, type, size, medium, price: Math.round(price * 100), description, imageUrl, status })}
+          onClick={() => onAdd({ title, type, size, medium, price: Math.round(price * 100), description, imageUrl, status, freeShipping })}
           disabled={loading || !title}
           style={{ padding: "8px 20px", borderRadius: 6, border: "none", background: accent, color: bg, fontWeight: 600, cursor: "pointer", opacity: loading || !title ? 0.5 : 1 }}
         >
@@ -453,6 +483,7 @@ function EditArtworkForm({
   const [imageUrl, setImageUrl] = useState(artwork.imageUrl);
   const [status, setStatus] = useState(artwork.status);
   const [featured, setFeatured] = useState(artwork.featured || false);
+  const [freeShipping, setFreeShipping] = useState(artwork.freeShipping || false);
 
   async function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -473,6 +504,7 @@ function EditArtworkForm({
       imageUrl,
       status,
       featured,
+      freeShipping,
     });
   }
 
@@ -524,6 +556,9 @@ function EditArtworkForm({
       <div style={{ display: "flex", gap: 16, marginTop: 12 }}>
         <label style={{ display: "flex", alignItems: "center", gap: 6, color: text, fontSize: 13, cursor: "pointer" }}>
           <input type="checkbox" checked={featured} onChange={(e) => setFeatured(e.target.checked)} /> Featured
+        </label>
+        <label style={{ display: "flex", alignItems: "center", gap: 6, color: text, fontSize: 13, cursor: "pointer" }}>
+          <input type="checkbox" checked={freeShipping} onChange={(e) => setFreeShipping(e.target.checked)} /> Free Shipping
         </label>
       </div>
       <div style={{ display: "flex", gap: 8, marginTop: 12 }}>
