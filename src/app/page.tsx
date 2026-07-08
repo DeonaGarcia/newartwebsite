@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { getOriginals } from "@/lib/artworks";
+import { getPublicArtworks } from "@/lib/blob-store";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Deona Hawaii Art | Original Fine Art",
@@ -9,8 +11,8 @@ export const metadata: Metadata = {
     "Original fine art inspired by the beauty of Hawaii. Paintings and prints by Deona Garcia.",
 };
 
-export default function HomePage() {
-  const gallery = getOriginals();
+export default async function HomePage() {
+  const gallery = await getPublicArtworks("original");
 
   return (
     <>
@@ -77,7 +79,7 @@ export default function HomePage() {
                 >
                   <div className="relative overflow-hidden bg-pearl">
                     <Image
-                      src={`/art/${artwork.file}`}
+                      src={artwork.imageUrl}
                       alt={artwork.title}
                       width={artwork.width}
                       height={artwork.height}
