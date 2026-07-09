@@ -9,8 +9,8 @@ export default async function MarketPage() {
 
   return (
     <>
-      {/* Sticky Venmo bar */}
-      <div className="sticky top-0 z-50 bg-ocean-deep px-4 py-3 flex items-center justify-center gap-4 flex-wrap">
+      {/* Sticky action bar */}
+      <div className="sticky top-0 z-50 bg-ocean-deep px-4 py-3 flex items-center justify-center gap-3 flex-wrap">
         <a
           href="https://venmo.com/Deona-Garcia"
           target="_blank"
@@ -19,29 +19,36 @@ export default async function MarketPage() {
         >
           Pay with Venmo
         </a>
-        <span className="text-pearl/60 text-xs uppercase tracking-widest">
-          @Deona-Garcia
-        </span>
+        <Link
+          href="/originals"
+          className="border border-pearl/40 text-pearl text-sm font-semibold uppercase tracking-widest py-2.5 px-6 hover:bg-pearl hover:text-ocean-deep transition-all duration-300"
+        >
+          Shop the Gallery
+        </Link>
       </div>
 
       {/* Hero */}
       <section className="bg-ocean-deep px-6 pt-12 pb-16 text-center">
         <h1 className="text-4xl md:text-5xl font-light text-pearl tracking-wide mb-3">
-          Aloha! Welcome to the Booth
+          Original Art & Prints
         </h1>
         <p className="text-lg text-pearl/80 font-light max-w-xl mx-auto">
-          Browse the collection below. See something you love? Pay with the
-          Venmo button above, or ask me in person.
+          Buying in person? Tap Pay with Venmo above. Shopping from home?
+          Tap Shop the Gallery to browse, add pieces to your cart, and check out online.
         </p>
       </section>
 
-      {/* Gallery */}
+      {/* Gallery preview */}
       <section className="py-16 px-6 bg-sand-light">
         <div className="max-w-7xl mx-auto">
           {artworks.length > 0 ? (
             <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
               {artworks.map((art) => (
-                <div key={art.id} className="break-inside-avoid group">
+                <Link
+                  href="/originals"
+                  key={art.id}
+                  className="block break-inside-avoid group"
+                >
                   <div
                     className="relative overflow-hidden bg-sand/30"
                     style={{ aspectRatio: `${art.width}/${art.height}` }}
@@ -68,7 +75,7 @@ export default async function MarketPage() {
                       </p>
                     ) : null}
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           ) : (
@@ -82,7 +89,7 @@ export default async function MarketPage() {
               href="/originals"
               className="inline-block border border-ocean-deep text-ocean-deep px-8 py-3 text-sm tracking-widest uppercase hover:bg-ocean-deep hover:text-pearl transition-all duration-300"
             >
-              View Full Collection Online
+              Shop the Full Gallery
             </Link>
           </div>
 
