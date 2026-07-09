@@ -12,7 +12,7 @@ export default async function MarketPage() {
       {/* Sticky Venmo bar */}
       <div className="sticky top-0 z-50 bg-ocean-deep px-4 py-3 flex items-center justify-center gap-4 flex-wrap">
         <a
-          href="https://venmo.com/u/Deoona-Garcia"
+          href="https://venmo.com/Deona-Garcia"
           target="_blank"
           rel="noopener noreferrer"
           className="bg-turquoise text-ocean-deep text-sm font-semibold uppercase tracking-widest py-2.5 px-6 hover:bg-turquoise-deep transition-all duration-300"
@@ -20,7 +20,7 @@ export default async function MarketPage() {
           Pay with Venmo
         </a>
         <span className="text-pearl/60 text-xs uppercase tracking-widest">
-          @Deoona-Garcia
+          @Deona-Garcia
         </span>
       </div>
 
