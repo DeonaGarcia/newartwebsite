@@ -53,7 +53,7 @@ export default async function MarketPage() {
                       className="object-cover transition-transform duration-700 group-hover:scale-105"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />
-                    {art.sold && (
+                    {art.status === "sold" && (
                       <div className="absolute top-3 right-3 bg-coral text-pearl text-xs px-3 py-1 uppercase tracking-wider">
                         Sold
                       </div>
@@ -62,7 +62,7 @@ export default async function MarketPage() {
                   <div className="mt-3">
                     <h3 className="text-ocean-deep font-light text-lg">{art.title}</h3>
                     <p className="text-ocean-deep/60 text-sm">{art.medium}</p>
-                    {art.price && !art.sold ? (
+                    {art.price && art.status !== "sold" ? (
                       <p className="text-turquoise text-sm mt-1">
                         ${art.price.toLocaleString()}
                       </p>
@@ -94,4 +94,3 @@ export default async function MarketPage() {
     </>
   );
 }
-
