@@ -41,8 +41,7 @@ export default function AboutPage() {
       {/* Hero */}
       <section className="py-28 px-6 bg-sand">
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
-          <div className="sticky top-24">
-            <Image
+          <div className="md:sticky md:top-24">            <Image
               src="/images/about/portrait.jpeg"
               alt="Deona Garcia — fine artist based in Hawaii"
               width={420}
