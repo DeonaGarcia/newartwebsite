@@ -123,7 +123,7 @@ export default function AboutPage() {
                 key={photo.src}
                 className={i === 0 ? "md:col-span-2" : ""}
               >
-                <div className={`relative ${i === 0 ? "aspect-[16/9]" : "aspect-[4/3]"} overflow-hidden`}>
+                <div className={`relative ${i === 0 ? "aspect-[4/3]" : "aspect-[4/3]"} overflow-hidden`}>
                   <Image
                     src={photo.src}
                     alt={photo.alt}
