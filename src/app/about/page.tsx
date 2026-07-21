@@ -44,9 +44,9 @@ export default function AboutPage() {
           <div className="md:sticky md:top-24">            <Image
               src="/images/about/portrait.jpeg"
               alt="Deona Garcia — fine artist based in Hawaii"
-              width={420}
-              height={560}
-              className="w-[70%] object-cover"
+              width={540}
+              height={720}
+              className="w-[90%] object-cover"
               priority
             />
           </div>
