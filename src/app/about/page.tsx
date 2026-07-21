@@ -121,8 +121,7 @@ export default function AboutPage() {
             {aboutPhotos.map((photo, i) => (
               <div
                 key={photo.src}
-                className={i === 0 ? "md:col-span-2" : ""}
-              >
+          className=""              >
                 <div className={`relative ${i === 0 ? "aspect-[4/3]" : "aspect-[4/3]"} overflow-hidden`}>
                   <Image
                     src={photo.src}
