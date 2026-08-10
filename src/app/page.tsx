@@ -16,18 +16,21 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* Banner — full image, no crop */}
-      <section className="w-full bg-pearl">
-        <div className="relative w-full">
-          <Image
-            src="/banner.png"
-            alt="Deona Hawaii Art - Original Art Inspired by the Islands"
-            width={2000}
-            height={300}
-            className="w-full h-auto"
-            priority
-          />
-        </div>
+      {/* Banner — logo with tagline */}
+      <section className="w-full bg-pearl py-12 px-6">
+      <div className="flex flex-col items-center justify-center text-center">
+      <Image
+        src="/logo.png"
+        alt="Deona Hawaii Art"
+        width={140}
+        height={140}
+        className="w-28 h-28 md:w-36 md:h-36 mb-4"
+        priority
+        />
+      <p className="font-heading italic text-2xl md:text-3xl text-turquoise-deep max-w-2xl">
+      I Use Vibrant Color to Create Emotional Spaces of Peace and Joy, Inspired by the Islands
+      </p>
+      </div>
       </section>
 
       {/* Hero — full Kealakekua Bay painting, uncropped */}
@@ -42,12 +45,9 @@ export default async function HomePage() {
         />
         <div className="absolute inset-0 bg-ocean-deep/30" />
         <div className="relative z-10 text-center max-w-3xl">
-          <h1 className="text-5xl md:text-7xl font-light text-pearl tracking-wide mb-4 drop-shadow-lg">
+          <h1 className="text-5xl md:text-7xl font-light text-pearl tracking-wide mb-8 drop-shadow-lg">
             Deona Hawaii
           </h1>
-          <p className="text-xl md:text-2xl text-pearl/90 font-light mb-8 drop-shadow-lg">
-            Original Art Inspired by the Islands
-          </p>
           <Link
             href="/originals"
             className="inline-block border border-turquoise text-turquoise px-8 py-3 text-sm tracking-widest uppercase hover:bg-turquoise hover:text-ocean-deep transition-all duration-300 bg-ocean-deep/40"
