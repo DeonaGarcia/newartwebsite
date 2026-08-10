@@ -27,7 +27,7 @@ export default async function HomePage() {
         className="w-40 h-40 md:w-56 md:h-56 mb-4"
         priority
         />
-      <p className="font-heading italic text-[clamp(0.9rem,2.3vw,2.75rem)] text-ocean-deep w-full text-center whitespace-nowrap px-4">
+      <p className="font-heading italic text-[clamp(0.85rem,2.3vw,2.75rem)] text-ocean-deep w-full text-center sm:whitespace-nowrap px-4">
       I Use Vibrant Color to Create Emotional Spaces of Peace and Joy, Inspired by the Islands
       </p>
       </div>
