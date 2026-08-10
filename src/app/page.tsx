@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { getPublicArtworks } from "@/lib/blob-store";
 import { EmailSignup } from "@/components/EmailSignup";
+import { AddToCartButton } from "@/components/cart/AddToCartButton";
 
 export const dynamic = "force-dynamic";
 
@@ -20,19 +21,19 @@ export default async function HomePage() {
     <>
       {/* Banner — logo with tagline */}
       <section className="w-full bg-pearl py-3 px-6">
-      <div className="flex flex-col items-center justify-center text-center">
-      <Image
-        src="/logo.png"
-        alt="Deona Hawaii Art"
-        width={200}
-        height={200}
-        className="w-40 h-40 md:w-56 md:h-56 mb-4"
-        priority
-        />
-      <p className="font-heading italic text-[clamp(0.85rem,2.3vw,2.75rem)] text-ocean-deep w-full text-center sm:whitespace-nowrap px-4">
-      I Use Vibrant Color to Create Emotional Spaces of Peace and Joy, Inspired by the Islands
-      </p>
-      </div>
+        <div className="flex flex-col items-center justify-center text-center">
+          <Image
+            src="/logo.png"
+            alt="Deona Hawaii Art"
+            width={200}
+            height={200}
+            className="w-40 h-40 md:w-56 md:h-56 mb-4"
+            priority
+          />
+          <p className="font-heading italic text-[clamp(0.85rem,2.3vw,2.75rem)] text-ocean-deep w-full text-center sm:whitespace-nowrap px-4">
+            I Use Vibrant Color to Create Emotional Spaces of Peace and Joy, Inspired by the Islands
+          </p>
+        </div>
       </section>
 
       {/* Hero — full Kealakekua Bay painting, uncropped */}
@@ -74,25 +75,44 @@ export default async function HomePage() {
           {gallery.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {gallery.map((artwork) => (
-                <Link
-                  key={artwork.id}
-                  href="/originals"
-                  className="group block"
-                >
-                  <div className="relative overflow-hidden bg-pearl">
-                    <Image
-                      src={artwork.imageUrl}
-                      alt={artwork.title}
-                      width={artwork.width}
-                      height={artwork.height}
-                      className="w-full h-auto transition-transform duration-500 group-hover:scale-105"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                <div key={artwork.id} className="group">
+                  <Link href="/originals" className="block">
+                    <div className="relative overflow-hidden bg-pearl">
+                      <Image
+                        src={artwork.imageUrl}
+                        alt={artwork.title}
+                        width={artwork.width}
+                        height={artwork.height}
+                        className="w-full h-auto transition-transform duration-500 group-hover:scale-105"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      />
+                      {artwork.status === "sold" && (
+                        <div className="absolute top-3 right-3 bg-coral text-pearl text-xs px-3 py-1 uppercase tracking-wider">
+                          Sold
+                        </div>
+                      )}
+                    </div>
+                  </Link>
+                  <div className="mt-4 flex items-start justify-between gap-3">
+                    <div>
+                      <Link href="/originals">
+                        <p className="font-heading text-lg text-ocean-deep group-hover:text-turquoise-deep transition-colors duration-200">
+                          {artwork.title}
+                        </p>
+                      </Link>
+                      {artwork.price ? (
+                        <p className="text-turquoise text-sm mt-1">
+                          ${(artwork.price / 100).toLocaleString()}
+                        </p>
+                      ) : null}
+                    </div>
+                    <AddToCartButton
+                      productId={artwork.id}
+                      type="original"
+                      disabled={artwork.status !== "available"}
                     />
                   </div>
-                  <p className="font-heading text-lg text-ocean-deep mt-4 group-hover:text-turquoise-deep transition-colors duration-200">
-                    {artwork.title}
-                  </p>
-                </Link>
+                </div>
               ))}
             </div>
           ) : (
