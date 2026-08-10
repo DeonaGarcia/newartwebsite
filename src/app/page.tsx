@@ -17,7 +17,7 @@ export default async function HomePage() {
   return (
     <>
       {/* Banner — logo with tagline */}
-      <section className="w-full bg-pearl py-6 px-6">
+      <section className="w-full bg-pearl py-3 px-6">
       <div className="flex flex-col items-center justify-center text-center">
       <Image
         src="/logo.png"
@@ -27,7 +27,7 @@ export default async function HomePage() {
         className="w-40 h-40 md:w-56 md:h-56 mb-4"
         priority
         />
-      <p className="font-heading italic text-2xl md:text-3xl text-ocean-deep max-w-2xl">
+      <p className="font-heading italic text-lg sm:text-2xl md:text-4xl lg:text-6xl text-ocean-deep w-full text-center whitespace-nowrap px-4">
       I Use Vibrant Color to Create Emotional Spaces of Peace and Joy, Inspired by the Islands
       </p>
       </div>
