@@ -33,6 +33,11 @@ const aboutPhotos = [
     alt: "Deona snorkeling in the ocean with coastal cliffs",
     caption: "Morning ocean swims — where many of my paintings begin",
   },
+    {
+    src: "/images/about/manta-ray-snorkeling.jpeg",
+    alt: "Deona snorkeling alongside a manta ray",
+    caption: "A manta ray glides by — the ocean rewarding a little patience",
+  },
 ];
 
 export default function AboutPage() {
