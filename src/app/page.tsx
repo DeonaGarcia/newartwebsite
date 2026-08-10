@@ -17,17 +17,17 @@ export default async function HomePage() {
   return (
     <>
       {/* Banner — logo with tagline */}
-      <section className="w-full bg-pearl py-12 px-6">
+      <section className="w-full bg-pearl py-6 px-6">
       <div className="flex flex-col items-center justify-center text-center">
       <Image
         src="/logo.png"
         alt="Deona Hawaii Art"
-        width={140}
-        height={140}
-        className="w-28 h-28 md:w-36 md:h-36 mb-4"
+        width={200}
+        height={200}
+        className="w-40 h-40 md:w-56 md:h-56 mb-4"
         priority
         />
-      <p className="font-heading italic text-2xl md:text-3xl text-turquoise-deep max-w-2xl">
+      <p className="font-heading italic text-2xl md:text-3xl text-ocean-deep max-w-2xl">
       I Use Vibrant Color to Create Emotional Spaces of Peace and Joy, Inspired by the Islands
       </p>
       </div>
