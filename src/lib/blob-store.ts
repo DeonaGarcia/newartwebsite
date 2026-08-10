@@ -26,7 +26,10 @@ export async function getArtworksWithMeta(): Promise<{ artworks: Artwork[]; etag
   try {
     const { blobs } = await list({ prefix: METADATA_KEY });
     if (blobs.length === 0) return { artworks: fallbackArtworks() };
-    const res = await fetch(blobs[0].url, { cache: "no-store" });
+    // Cache-bust with the blob's own upload timestamp so a stale CDN edge
+    // can never serve last save's content after a new save just happened.
+    const bustUrl = `${blobs[0].url}?v=${blobs[0].uploadedAt.getTime()}`;
+    const res = await fetch(bustUrl, { cache: "no-store" });
     const data: Artwork[] = await res.json();
     if (!data || data.length === 0) return { artworks: fallbackArtworks() };
     return { artworks: data.sort((a, b) => a.order - b.order), etag: blobs[0].etag };
@@ -47,7 +50,8 @@ export async function saveArtworks(artworks: Artwork[], ifMatch?: string): Promi
   try {
     const { blobs } = await list({ prefix: METADATA_KEY });
     if (blobs.length > 0) {
-      const res = await fetch(blobs[0].url, { cache: "no-store" });
+      const bustUrl = `${blobs[0].url}?v=${blobs[0].uploadedAt.getTime()}`;
+      const res = await fetch(bustUrl, { cache: "no-store" });
       const previous = await res.text();
       const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
       await put(`${BACKUPS_PREFIX}${timestamp}.json`, previous, {
@@ -82,7 +86,8 @@ export async function restoreArtworkBackup(pathname: string): Promise<void> {
   const { blobs } = await list({ prefix: BACKUPS_PREFIX });
   const match = blobs.find((b) => b.pathname === pathname);
   if (!match) throw new Error(`Backup not found: ${pathname}`);
-  const res = await fetch(match.url, { cache: "no-store" });
+  const bustUrl = `${match.url}?v=${match.uploadedAt.getTime()}`;
+  const res = await fetch(bustUrl, { cache: "no-store" });
   const data = await res.text();
   await put(METADATA_KEY, data, {
     access: "public",
