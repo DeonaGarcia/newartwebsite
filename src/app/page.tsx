@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { getPublicArtworks } from "@/lib/blob-store";
+import { EmailSignup } from "@/components/EmailSignup";
 
 export const dynamic = "force-dynamic";
 
@@ -12,7 +13,8 @@ export const metadata: Metadata = {
 };
 
 export default async function HomePage() {
-  const gallery = await getPublicArtworks("original");
+  const allOriginals = await getPublicArtworks("original");
+  const gallery = allOriginals.slice(0, 6);
 
   return (
     <>
@@ -57,7 +59,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Gallery — all originals */}
+      {/* Gallery — a few favorites, full collection lives on /originals */}
       <section className="py-20 px-6 bg-sand-light">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
@@ -65,7 +67,7 @@ export default async function HomePage() {
               Original Works
             </p>
             <h2 className="font-heading text-4xl md:text-5xl font-light text-ocean-deep">
-              Gallery
+              A Few Favorites
             </h2>
           </div>
 
@@ -129,6 +131,9 @@ export default async function HomePage() {
           </Link>
         </div>
       </section>
+
+      {/* Email capture — collector list */}
+      <EmailSignup />
     </>
   );
 }
