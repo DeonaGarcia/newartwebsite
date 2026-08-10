@@ -3,6 +3,7 @@ import type { Artwork } from "./types";
 import { artworks as staticArtworks } from "./artworks";
 
 const METADATA_KEY = "artworks/metadata.json";
+const BACKUPS_PREFIX = "artworks/backups/";
 
 function fallbackArtworks(): Artwork[] {
   const now = new Date().toISOString();
@@ -40,12 +41,54 @@ export async function getArtworks(): Promise<Artwork[]> {
 }
 
 export async function saveArtworks(artworks: Artwork[], ifMatch?: string): Promise<void> {
+  // Snapshot whatever is currently live before overwriting it, so a bad
+  // save (wrong price, wiped title, accidental delete) is recoverable.
+  // Best-effort only — a backup failure must never block the real save.
+  try {
+    const { blobs } = await list({ prefix: METADATA_KEY });
+    if (blobs.length > 0) {
+      const res = await fetch(blobs[0].url, { cache: "no-store" });
+      const previous = await res.text();
+      const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
+      await put(`${BACKUPS_PREFIX}${timestamp}.json`, previous, {
+        access: "public",
+        addRandomSuffix: false,
+        contentType: "application/json",
+      });
+    }
+  } catch {
+    // Ignore — backup is a safety net, not a requirement for saving.
+  }
+
   await put(METADATA_KEY, JSON.stringify(artworks, null, 2), {
     access: "public",
     addRandomSuffix: false,
     allowOverwrite: true,
     contentType: "application/json",
     ...(ifMatch ? { ifMatch } : {}),
+  });
+}
+
+export async function listArtworkBackups(): Promise<
+  { pathname: string; uploadedAt: Date; url: string }[]
+> {
+  const { blobs } = await list({ prefix: BACKUPS_PREFIX });
+  return blobs
+    .map((b) => ({ pathname: b.pathname, uploadedAt: b.uploadedAt, url: b.url }))
+    .sort((a, b) => b.uploadedAt.getTime() - a.uploadedAt.getTime());
+}
+
+export async function restoreArtworkBackup(pathname: string): Promise<void> {
+  const { blobs } = await list({ prefix: BACKUPS_PREFIX });
+  const match = blobs.find((b) => b.pathname === pathname);
+  if (!match) throw new Error(`Backup not found: ${pathname}`);
+  const res = await fetch(match.url, { cache: "no-store" });
+  const data = await res.text();
+  await put(METADATA_KEY, data, {
+    access: "public",
+    addRandomSuffix: false,
+    allowOverwrite: true,
+    contentType: "application/json",
   });
 }
 
