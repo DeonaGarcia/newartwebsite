@@ -69,10 +69,7 @@ export default function AboutPage() {
                 I create emotional spaces of peace and joy through vibrant color inspired by the awe of God's creation. My paintings are for the person who needs a physical reminder of peace in their daily life. I use the vibrant colors of the islands to create a space where your mind can rest and your spirit can spark with joy.
               </p>
               <p>
-                From morning ocean swims to volcanic eruptions, from underwater
-                explorations to the quiet beauty of native birds — every experience
-                on the islands feeds her creative practice and finds its way onto
-                canvas.
+                Every experience on the islands feeds this practice—from morning ocean swims and underwater explorations to the powerful fire of a volcanic eruption and the quiet beauty of native birds. I am committed to capturing not just what Hawaii looks like, but what it feels like. I translate these moments of pure awe into my work so that you can bring that same vibrant connection and peace into your own home.
               </p>
             </div>
 
