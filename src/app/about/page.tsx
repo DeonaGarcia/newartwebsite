@@ -16,7 +16,7 @@ const aboutPhotos = [
   {
     src: "/images/about/hawaii-nei-exhibition.jpeg",
     alt: "Deona at the juried Hawaii Nei art exhibition",
-    caption: "Hawaii Nei Art Exhibition — my I'iwi oil painting was juried and accepted",
+    caption: "My I'iwi oil painting at Hawaii Nei Art Exhibition",
   },
   {
     src: "/images/about/volcano-inspiration.jpeg",
