@@ -66,16 +66,7 @@ export default function AboutPage() {
 
             <div className="space-y-5 font-body text-driftwood leading-relaxed">
               <p>
-                Deona Garcia is a fine artist whose work is deeply rooted in the
-                landscapes, light, and culture of Hawaii. Through oil, acrylic,
-                and mixed media, she translates the emotional power of island life
-                into paintings that resonate with collectors worldwide.
-              </p>
-              <p>
-                Her artistic practice spans original canvases, limited edition fine
-                art prints, and commissioned pieces. Each work reflects a commitment
-                to authenticity — capturing not just what Hawaii looks like, but what
-                it feels like.
+                I create emotional spaces of peace and joy through vibrant color inspired by the awe of God's creation. My paintings are for the person who needs a physical reminder of peace in their daily life. I use the vibrant colors of the islands to create a space where your mind can rest and your spirit can spark with joy.
               </p>
               <p>
                 From morning ocean swims to volcanic eruptions, from underwater
