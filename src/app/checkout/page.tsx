@@ -28,8 +28,8 @@ export default function CheckoutPage() {
   // Calculate tax when subtotal is known
   useEffect(() => {
     if (subtotal > 0) {
-      // Hawaii GET 4.712%
-      setTaxAmount(Math.round(subtotal * 0.04712));
+      // Hawaii GET Hawaii sales tax 4.5%
+      setTaxAmount(Math.round(subtotal * 0.045;
     }
   }, [subtotal]);
 
